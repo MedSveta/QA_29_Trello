@@ -1,5 +1,6 @@
 package tests;
 
+import data_provider.DataProviderBoards;
 import dto.Board;
 import dto.User;
 import manager.AppManager;
@@ -10,6 +11,7 @@ import pages.BoardsPage;
 import pages.HomePage;
 import pages.LoginPage;
 import pages.MyBoardPage;
+import static utils.RandomUtils.*;
 
 public class BoardsTests extends AppManager {
     @BeforeMethod
@@ -25,9 +27,33 @@ public class BoardsTests extends AppManager {
     @Test
     public void createNewBoardPositiveTest(){
         Board board = Board.builder()
-                .boardTitle("tryu123").build();
+                .boardTitle(generateString(5)).build();
         new BoardsPage(getDriver()).createNewBoard(board);
         Assert.assertTrue(new MyBoardPage(getDriver())
-                .validateBoardName("tryu123", 5));
+                .validateBoardName(board.getBoardTitle(), 5));
     }
+
+    @Test
+    public void createNewBoardNegativeTest(){
+        Board board = Board.builder()
+                .boardTitle(" ").build();
+        new BoardsPage(getDriver()).createNewBoardNegative(board);
+        Assert.assertTrue( new BoardsPage(getDriver()).buttonCreateIsNotClickable());
+    }
+
+    @Test(dataProvider = "newBoardDP", dataProviderClass = DataProviderBoards.class)
+    public void createNewBoardPositiveTestWithDP(Board board){
+
+        new BoardsPage(getDriver()).createNewBoard(board);
+        Assert.assertTrue(new MyBoardPage(getDriver())
+                .validateBoardName(board.getBoardTitle(), 5));
+    }
+
+    @Test(dataProvider = "newBoardDPFile", dataProviderClass = DataProviderBoards.class)
+    public void createNewBoardPositiveTestWithDPFile(Board board){
+        new BoardsPage(getDriver()).createNewBoard(board);
+        Assert.assertTrue(new MyBoardPage(getDriver())
+                .validateBoardName(board.getBoardTitle(), 5));
+    }
+
 }
