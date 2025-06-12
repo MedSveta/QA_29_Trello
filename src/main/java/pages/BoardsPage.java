@@ -11,8 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class BoardsPage extends BasePage{
-    public BoardsPage(WebDriver driver){
+public class BoardsPage extends BasePage {
+    public BoardsPage(WebDriver driver) {
         setDriver(driver);
         PageFactory.initElements(new AjaxElementLocatorFactory(driver
                 , 10), this);
@@ -25,24 +25,35 @@ public class BoardsPage extends BasePage{
     @FindBy(xpath = "//button[@data-testid='create-board-submit-button']")
     WebElement btnCreateBoardSubmit;
 
-    public void createNewBoard(Board board){
+    @FindBy(xpath = "//div[@class='B1uWdim9Jd0dJ9']")
+    WebElement btnAccount;
+    @FindBy(xpath = "//a[@data-testid='manage-account-link']")
+    WebElement btnManageAccount;
+
+    public void openMyAccount(){
+        clickWait(btnAccount, 3);
+        clickWait(btnManageAccount, 3);
+    }
+
+    public void createNewBoard(Board board) {
         btnCreateNewBoard.click();
         inputBoardTitle.sendKeys(board.getBoardTitle());
         clickWait(btnCreateBoardSubmit, 5);
     }
-    public void createNewBoardNegative(Board board){
+
+    public void createNewBoardNegative(Board board) {
         btnCreateNewBoard.click();
         inputBoardTitle.sendKeys(board.getBoardTitle());
     }
 
-    public boolean validateUrl(){
-        return  new WebDriverWait(driver, Duration.ofSeconds(5))
+    public boolean validateUrl() {
+        return new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.urlContains("boards"));
     }
 
     public boolean buttonCreateIsNotClickable() {
-       return new WebDriverWait(driver, Duration.ofSeconds(3))
-               .until(ExpectedConditions.not(ExpectedConditions
-                       .elementToBeClickable(btnCreateBoardSubmit)));
+        return new WebDriverWait(driver, Duration.ofSeconds(3))
+                .until(ExpectedConditions.not(ExpectedConditions
+                        .elementToBeClickable(btnCreateBoardSubmit)));
     }
 }
