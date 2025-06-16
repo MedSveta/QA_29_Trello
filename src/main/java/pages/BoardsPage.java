@@ -29,6 +29,8 @@ public class BoardsPage extends BasePage {
     WebElement btnAccount;
     @FindBy(xpath = "//a[@data-testid='manage-account-link']")
     WebElement btnManageAccount;
+    @FindBy(xpath = "//span[@class='QMKgZFIlTLiEJN']")
+    WebElement popUpMessageBoardDelete;
 
     public void openMyAccount(){
         clickWait(btnAccount, 3);
