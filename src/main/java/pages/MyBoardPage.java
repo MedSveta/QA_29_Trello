@@ -19,6 +19,7 @@ public class MyBoardPage extends BasePage {
     @FindBy(xpath = "//button[@aria-label='Show menu']")
     WebElement btnMenuDots;
     @FindBy(xpath = "//div[text()='Close board']")
+            //для тех у кого на русском //span[@aria-label='Close board']/..  две точки это подьем вверх по дому
     WebElement btnCloseBoard;
     @FindBy(xpath = "//button[@data-testid='popover-close-board-confirm']")
     WebElement btnCloseConfirm;
@@ -30,6 +31,13 @@ public class MyBoardPage extends BasePage {
 
     public void deleteBoard() {
     clickWait(btnMenuDots, 5);
+    clickWait(btnCloseBoard, 5);
+    clickWait(btnCloseConfirm, 5);
+    pause(5);
+    clickWait(btnMenuDots, 5);
+    clickWait(btnDeleteBoard, 5);
+    clickWait(btnDeleteConfirm, 3);
+
     }
 
     public boolean validateBoardName(String text, int time) {
